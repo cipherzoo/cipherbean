@@ -1,6 +1,8 @@
 package com.revenup.labs.triggerhappy.BotService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +24,11 @@ public class WebhookController {
 	public DialogFlowResponse processWebhook(HttpServletRequest request, HttpServletResponse response) {
 		DialogFlowResponse dialogFlowResponse = new DialogFlowResponse();
 		Text text = new Text(new String[] { "Test Response For the activity" });
-		Map<String, Message> fulfillmentMessages = new HashMap<>();
-		fulfillmentMessages.put("text", text);
-		dialogFlowResponse.setFulfillmentMessages(fulfillmentMessages);
+		Map<String, Message> fulfillmentMessage = new HashMap<>();
+		fulfillmentMessage.put("text", text);
+		List<Map<String, Message>> fulfillementMessages = new ArrayList<>(1);
+		fulfillementMessages.add(fulfillmentMessage);
+		dialogFlowResponse.setFulfillmentMessages(fulfillementMessages);
 		return dialogFlowResponse;
 	}
 
