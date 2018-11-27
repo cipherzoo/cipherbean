@@ -1,5 +1,8 @@
 package com.google.df.webhook.response;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public abstract class Message {
 	private String platform;
 	private int type;
