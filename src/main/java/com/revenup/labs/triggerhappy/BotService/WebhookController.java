@@ -23,6 +23,7 @@ public class WebhookController {
 
 	@PostMapping(produces = "application/json")
 	public DialogFlowResponse processWebhook(@RequestBody Request request, HttpServletResponse response) {
+		String intent = request.getQueryResult().getIntent().getDisplayName();
 		DialogFlowResponse dialogFlowResponse = new DialogFlowResponse();
 		Text text = new Text(new String[] { "Test Response For the activity" });
 		Map<String, Message> fulfillmentMessage = new HashMap<>();
