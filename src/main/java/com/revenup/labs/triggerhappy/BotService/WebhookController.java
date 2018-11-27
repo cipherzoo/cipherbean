@@ -21,6 +21,7 @@ public class WebhookController {
 		Text text = new Text(new String[] { "Test Response For the activity" });
 		Message message = new Message();
 		message.setText(text);
+		dialogFlowResponse.setFulfillmentMessages(new Message[] { message });
 		return dialogFlowResponse;
 	}
 
