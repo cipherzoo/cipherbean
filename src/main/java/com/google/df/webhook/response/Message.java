@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Message {
+	/*
 	private String platform;
 
 	public Message() {
@@ -17,5 +18,5 @@ public class Message {
 	public void setPlatform(String platform) {
 		this.platform = platform;
 	}
-
+	*/
 }
