@@ -1,6 +1,7 @@
 package com.google.df.webhook.response;
 
-public class Text extends Message {
+public class Text {
+
 	private String[] text;
 
 	public Text(String[] text) {

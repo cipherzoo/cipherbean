@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.df.webhook.response.DialogFlowResponse;
+import com.google.df.webhook.response.Message;
 import com.google.df.webhook.response.Text;
 
 @RestController
@@ -16,7 +17,11 @@ public class WebhookController {
 
 	@PostMapping(produces = "application/json")
 	public DialogFlowResponse processWebhook(HttpServletRequest request, HttpServletResponse response) {
-		return new DialogFlowResponse(new Text(new String[] { "Test Response from custom webhook" }));
+		DialogFlowResponse dialogFlowResponse = new DialogFlowResponse();
+		Text text = new Text(new String[] { "Test Response For the activity" });
+		Message message = new Message();
+		message.setText(text);
+		return dialogFlowResponse;
 	}
 
 }

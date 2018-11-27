@@ -28,7 +28,7 @@ public class DialogFlowResponse {
 		return fulfillmentMessages;
 	}
 
-	public void setFulfillmentMessages(FulfillmentMessage[] fulfillmentMessages) {
+	public void setFulfillmentMessages(Message[] fulfillmentMessages) {
 		this.fulfillmentMessages = fulfillmentMessages;
 	}
 
