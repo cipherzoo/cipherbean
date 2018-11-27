@@ -1,5 +1,5 @@
 package com.google.df.webhook.response;
 
-public class FulfillmentMessage {
+public class FulfillmentMessage extends Message {
 
 }
