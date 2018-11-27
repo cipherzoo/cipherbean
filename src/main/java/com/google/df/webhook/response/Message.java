@@ -23,14 +23,6 @@ public class Message {
 		this.platform = platform;
 	}
 
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
-
 	public Text getText() {
 		return text;
 	}
