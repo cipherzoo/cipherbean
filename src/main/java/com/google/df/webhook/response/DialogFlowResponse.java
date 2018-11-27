@@ -1,19 +1,17 @@
 package com.google.df.webhook.response;
 
+import java.util.Map;
+
 public class DialogFlowResponse {
 
 	private String fulfillmentText;
-	private Message[] fulfillmentMessages;
+	private Map<String, Message> fulfillmentMessages;
 	private String source;
 	private String payload;
 	private OutputContext[] outputContexts;
 
 	public DialogFlowResponse() {
 
-	}
-
-	public DialogFlowResponse(Message message) {
-		this.fulfillmentMessages = new Message[] { message };
 	}
 
 	public String getFulfillmentText() {
@@ -24,11 +22,11 @@ public class DialogFlowResponse {
 		this.fulfillmentText = fulfillmentText;
 	}
 
-	public Message[] getFulfillmentMessages() {
+	public Map<String, Message> getFulfillmentMessages() {
 		return fulfillmentMessages;
 	}
 
-	public void setFulfillmentMessages(Message[] fulfillmentMessages) {
+	public void setFulfillmentMessages(Map<String, Message> fulfillmentMessages) {
 		this.fulfillmentMessages = fulfillmentMessages;
 	}
 
