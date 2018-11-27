@@ -11,7 +11,7 @@ import com.google.df.webhook.response.Message;
 import com.google.df.webhook.response.Text;
 
 @RestController
-@RequestMapping("/webhook")
+@RequestMapping("/")
 public class WebhookController {
 
 	@PostMapping(produces = "application/json")
