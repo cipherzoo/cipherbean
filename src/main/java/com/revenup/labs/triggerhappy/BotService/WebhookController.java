@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.df.webhook.Request;
 import com.google.df.webhook.response.DialogFlowResponse;
 import com.google.df.webhook.response.Message;
-import com.google.df.webhook.response.Text;
 import com.revenup.labs.triggerhappy.service.IntentProcessingService;
 
 @RestController
@@ -24,7 +25,9 @@ import com.revenup.labs.triggerhappy.service.IntentProcessingService;
 public class WebhookController {
 
 	@Autowired
-	private IntentProcessingService intentProcessor;
+	private IntentProcessingService intentProcessingService;
+
+	private static Logger logger = LoggerFactory.getLogger("WebHookController");
 
 	@PostMapping(produces = "application/json")
 	public DialogFlowResponse processWebhook(@RequestBody Request request, HttpServletResponse response) {
@@ -32,13 +35,12 @@ public class WebhookController {
 
 		try {
 			String intent = request.getQueryResult().getIntent().getDisplayName();
-			// String intent = "get_campaign_type_from_user";
 			Map<String, Message> fulfillmentMessage = new HashMap<>();
 			switch (intent) {
 			case "get_insights":
 				break;
 			case "get_campaign_type_from_user":
-				fulfillmentMessage.put("text", intentProcessor.getCampaignsByCampaignType(request));
+				fulfillmentMessage.put("text", intentProcessingService.getCampaignsByCampaignType(request));
 				// fulfillmentMessage.put("text",
 				// new Text(new String[] {
 				// request.getQueryResult().getParameters().get("campaign_types") }));
