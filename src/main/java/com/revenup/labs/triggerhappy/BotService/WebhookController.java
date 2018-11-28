@@ -28,21 +28,25 @@ public class WebhookController {
 
 	@PostMapping(produces = "application/json")
 	public DialogFlowResponse processWebhook(@RequestBody Request request, HttpServletResponse response) {
-		String intent = request.getQueryResult().getIntent().getDisplayName();
-		Map<String, Message> fulfillmentMessage = new HashMap<>();
-		switch (intent) {
-		case "get_insights":
-			break;
-		case "get_campaign_type_from_user":
-			fulfillmentMessage = intentProcessor.getCampaignsByCampaignType(request);
-			break;
-		default:
-			break;
-		}
 		DialogFlowResponse dialogFlowResponse = new DialogFlowResponse();
-		List<Map<String, Message>> fulfillementMessages = new ArrayList<>(1);
-		fulfillementMessages.add(fulfillmentMessage);
-		dialogFlowResponse.setFulfillmentMessages(fulfillementMessages);
+		try {
+			String intent = request.getQueryResult().getIntent().getDisplayName();
+			Map<String, Message> fulfillmentMessage = new HashMap<>();
+			switch (intent) {
+			case "get_insights":
+				break;
+			case "get_campaign_type_from_user":
+				fulfillmentMessage = intentProcessor.getCampaignsByCampaignType(request);
+				break;
+			default:
+				break;
+			}
+			List<Map<String, Message>> fulfillementMessages = new ArrayList<>(1);
+			fulfillementMessages.add(fulfillmentMessage);
+			dialogFlowResponse.setFulfillmentMessages(fulfillementMessages);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return dialogFlowResponse;
 	}
 
