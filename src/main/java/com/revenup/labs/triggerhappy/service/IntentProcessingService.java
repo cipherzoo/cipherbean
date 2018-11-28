@@ -20,7 +20,7 @@ public class IntentProcessingService {
 		return null;
 	}
 
-	public Message getCampaignsByCampaignType(Request req) {
+	public Text getCampaignsByCampaignType(Request req) {
 		// Map<String, String> parameters = req.getQueryResult().getParameters();
 		// String queryText = req.getQueryResult().getQueryText();
 		List<String> textMessages = new ArrayList<>(10);
