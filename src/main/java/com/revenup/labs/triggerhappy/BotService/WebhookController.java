@@ -30,7 +30,8 @@ public class WebhookController {
 	public DialogFlowResponse processWebhook(@RequestBody Request request, HttpServletResponse response) {
 		DialogFlowResponse dialogFlowResponse = new DialogFlowResponse();
 		try {
-			String intent = request.getQueryResult().getIntent().getDisplayName();
+			//String intent = request.getQueryResult().getIntent().getDisplayName();
+			String intent = "get_campaign_type_from_user";
 			Map<String, Message> fulfillmentMessage = new HashMap<>();
 			switch (intent) {
 			case "get_insights":
