@@ -20,11 +20,11 @@ public class IntentProcessingService {
 		return null;
 	}
 
-	public Text getCampaignsByCampaignType(Request req) {
+	public Message getCampaignsByCampaignType(Request req) {
 		// Map<String, String> parameters = req.getQueryResult().getParameters();
 		// String queryText = req.getQueryResult().getQueryText();
 		List<String> textMessages = new ArrayList<>(10);
-		String campaignType = req.getQueryResult().getParameters().containsKey("camapaign_types")
+		String campaignType = req.getQueryResult().getParameters().containsKey("campaign_types")
 				? req.getQueryResult().getParameters().get("campaign_types")
 				: "";
 		logger.info("Campaign Type : {}", campaignType);
@@ -32,13 +32,11 @@ public class IntentProcessingService {
 		switch (campaignType.toLowerCase()) {
 		case "product based":
 			logger.info("The Selected campaign type is Product Type");
-			// textMessages.add("Here are some cherry picked product based campaigns for
-			// you.");
-			// textMessages.add("Just enter the corresponding number to go ahead creating
-			// the campaign.");
+			textMessages.add("Here are some cherry picked product based campaigns for you.");
+			textMessages.add("Just enter the corresponding number to go ahead creating 			 the campaign.");
 			textMessages.add("1. Cross-sell Fixed Deposit");
-			// textMessages.add("2. Cross-sell Personal Loan");
-			// textMessages.add("3. Cross-sell Credit Card");
+			textMessages.add("2. Cross-sell Personal Loan");
+			textMessages.add("3. Cross-sell Credit Card");
 			logger.info("Added Text responses");
 			break;
 		case "goal based":
