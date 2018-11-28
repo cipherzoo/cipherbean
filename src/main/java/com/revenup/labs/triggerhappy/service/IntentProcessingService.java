@@ -17,7 +17,7 @@ public class IntentProcessingService {
 		return null;
 	}
 
-	public Map<String, Message> getCampaignsByCampaignType(Request req) {
+	public Message getCampaignsByCampaignType(Request req) {
 		// Map<String, String> parameters = req.getQueryResult().getParameters();
 		// String queryText = req.getQueryResult().getQueryText();
 		List<String> textMessages = new ArrayList<>(10);
@@ -42,9 +42,7 @@ public class IntentProcessingService {
 		}
 		String[] textValues = new String[textMessages.size()];
 		Text text = new Text(textMessages.toArray(textValues));
-		Map<String, Message> fulfillmentMessage = new HashMap<>();
-		fulfillmentMessage.put("text", text);
-		return fulfillmentMessage;
+		return text;
 	}
 
 	// public Message
