@@ -39,8 +39,9 @@ public class WebhookController {
 				break;
 			case "get_campaign_type_from_user":
 				fulfillmentMessage = intentProcessor.getCampaignsByCampaignType(request);
-				//fulfillmentMessage.put("text",
-				//		new Text(new String[] { request.getQueryResult().getParameters().get("campaign_types") }));
+				// fulfillmentMessage.put("text",
+				// new Text(new String[] {
+				// request.getQueryResult().getParameters().get("campaign_types") }));
 				break;
 			default:
 				break;

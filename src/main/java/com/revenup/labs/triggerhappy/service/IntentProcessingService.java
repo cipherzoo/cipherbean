@@ -18,13 +18,14 @@ public class IntentProcessingService {
 	}
 
 	public Map<String, Message> getCampaignsByCampaignType(Request req) {
-		Map<String, String> parameters = req.getQueryResult().getParameters();
-		String queryText = req.getQueryResult().getQueryText();
+		// Map<String, String> parameters = req.getQueryResult().getParameters();
+		// String queryText = req.getQueryResult().getQueryText();
 		List<String> textMessages = new ArrayList<>(10);
-		StringBuilder builder = new StringBuilder();
-		String campaignType = parameters.containsKey("camapaign_types") ? parameters.get("campaign_types") : "";
+		String campaignType = req.getQueryResult().getParameters().containsKey("camapaign_types")
+				? req.getQueryResult().getParameters().get("campaign_types")
+				: "";
 		// TODO
-		switch (campaignType) {
+		switch (campaignType.toLowerCase()) {
 		case "product based":
 			textMessages.add("Here are some cherry picked product based campaigns for you.");
 			textMessages.add("Just enter the corresponding number to go ahead creating the campaign.");
