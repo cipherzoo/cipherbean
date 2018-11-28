@@ -29,15 +29,18 @@ public class WebhookController {
 	@PostMapping(produces = "application/json")
 	public DialogFlowResponse processWebhook(@RequestBody Request request, HttpServletResponse response) {
 		DialogFlowResponse dialogFlowResponse = new DialogFlowResponse();
+
 		try {
-			//String intent = request.getQueryResult().getIntent().getDisplayName();
-			String intent = "get_campaign_type_from_user";
+			String intent = request.getQueryResult().getIntent().getDisplayName();
+			// String intent = "get_campaign_type_from_user";
 			Map<String, Message> fulfillmentMessage = new HashMap<>();
 			switch (intent) {
 			case "get_insights":
 				break;
 			case "get_campaign_type_from_user":
-				fulfillmentMessage = intentProcessor.getCampaignsByCampaignType(request);
+				// fulfillmentMessage = intentProcessor.getCampaignsByCampaignType(request);
+				fulfillmentMessage.put("text",
+						new Text(new String[] { request.getQueryResult().getParameters().get("campaign_types") }));
 				break;
 			default:
 				break;
