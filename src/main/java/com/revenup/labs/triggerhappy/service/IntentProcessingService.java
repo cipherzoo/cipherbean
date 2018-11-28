@@ -1,6 +1,8 @@
 package com.revenup.labs.triggerhappy.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -15,17 +17,20 @@ public class IntentProcessingService {
 		return null;
 	}
 
-	public Map<String,Message> getCampaignsByCampaignType(Request req) {
+	public Map<String, Message> getCampaignsByCampaignType(Request req) {
 		Map<String, String> parameters = req.getQueryResult().getParameters();
 		String queryText = req.getQueryResult().getQueryText();
+		List<String> textMessages = new ArrayList<>(10);
 		StringBuilder builder = new StringBuilder();
 		String campaignType = parameters.containsKey("camapaign_types") ? parameters.get("campaign_types") : "";
 		// TODO
 		switch (campaignType) {
 		case "product based":
-			builder.append(
-					"Here are some cherry picked product based campaigns for you. Just enter the corresponding number to go ahead creating the campaign.")
-					.append("\n 1. Cross-sell Fixed Deposit, 2. Cross-sell Personal Loan, 3. Cross-sell Credit Card");
+			textMessages.add("Here are some cherry picked product based campaigns for you.");
+			textMessages.add("Just enter the corresponding number to go ahead creating the campaign.");
+			textMessages.add("1. Cross-sell Fixed Deposit");
+			textMessages.add("2. Cross-sell Personal Loan");
+			textMessages.add("3. Cross-sell Credit Card");
 			break;
 		case "goal based":
 			break;
@@ -34,10 +39,10 @@ public class IntentProcessingService {
 		default:
 			break;
 		}
-		Text text = new Text(new String[] { builder.toString() });
+		String[] textValues = new String[textMessages.size()];
+		Text text = new Text(textMessages.toArray(textValues));
 		Map<String, Message> fulfillmentMessage = new HashMap<>();
 		fulfillmentMessage.put("text", text);
-
 		return fulfillmentMessage;
 	}
 
