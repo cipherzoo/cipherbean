@@ -24,15 +24,13 @@ import com.revenup.labs.triggerhappy.service.IntentProcessingService;
 @RequestMapping("/")
 public class WebhookController {
 
-	@Autowired
-	private IntentProcessingService intentProcessingService;
+	private IntentProcessingService intentProcessingService = new IntentProcessingService();
 
 	private static Logger logger = LoggerFactory.getLogger("WebHookController");
 
 	@PostMapping(produces = "application/json")
 	public DialogFlowResponse processWebhook(@RequestBody Request request, HttpServletResponse response) {
 		DialogFlowResponse dialogFlowResponse = new DialogFlowResponse();
-
 		try {
 			String intent = request.getQueryResult().getIntent().getDisplayName();
 			Map<String, Message> fulfillmentMessage = new HashMap<>();
@@ -41,9 +39,6 @@ public class WebhookController {
 				break;
 			case "get_campaign_type_from_user":
 				fulfillmentMessage.put("text", intentProcessingService.getCampaignsByCampaignType(request));
-				// fulfillmentMessage.put("text",
-				// new Text(new String[] {
-				// request.getQueryResult().getParameters().get("campaign_types") }));
 				break;
 			default:
 				break;
