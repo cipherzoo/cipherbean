@@ -50,7 +50,7 @@ public class WebhookController {
 			default:
 				break;
 			}
-			fulfillmentMessage.put("text", new Text(new String[] { "test" }));
+
 			List<Map<String, Message>> fulfillementMessages = new ArrayList<>(1);
 			fulfillementMessages.add(fulfillmentMessage);
 			dialogFlowResponse.setFulfillmentMessages(fulfillementMessages);
