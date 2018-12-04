@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import com.revenup.labs.triggerhappy.model.CampaignFilter;
 import com.revenup.labs.triggerhappy.model.mapper.CampaignFilterMapper;
 
+@Component
 public class CampaignDAO {
 
 	@Autowired
