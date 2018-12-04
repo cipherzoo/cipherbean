@@ -37,7 +37,7 @@ public class IntentProcessingService {
 		Map<String, String> parameters = req.getQueryResult().getParameters();
 		List<String> textMessages = new ArrayList<>(10);
 		String campaignType = parameters.containsKey("campaign_types") ? parameters.get("campaign_types") : "";
-		logger.info("Campaign Type : ", campaignType);
+		logger.info("Campaign Type : {}", campaignType);
 		// TODO
 		switch (campaignType.toLowerCase()) {
 		case "product based":
