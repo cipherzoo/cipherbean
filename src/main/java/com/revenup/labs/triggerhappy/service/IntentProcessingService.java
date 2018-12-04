@@ -34,9 +34,9 @@ public class IntentProcessingService {
 	}
 
 	public Message getCampaignsByCampaignType(Request req) {
-		Map<String, String> parameters = req.getQueryResult().getParameters();
+		Map<String, Object> parameters = req.getQueryResult().getParameters();
 		List<String> textMessages = new ArrayList<>(10);
-		String campaignType = parameters.containsKey("campaign_types") ? parameters.get("campaign_types") : "";
+		String campaignType = parameters.containsKey("campaign_types") ? (String) parameters.get("campaign_types") : "";
 		logger.info("Campaign Type : {}", campaignType);
 		// TODO
 		switch (campaignType.toLowerCase()) {
@@ -61,10 +61,12 @@ public class IntentProcessingService {
 	}
 
 	public Text processSelectedCampaign(Request req) {
-		Map<String, String> parameters = req.getQueryResult().getParameters();
-		String campaignNumber = parameters.containsKey("campaign_number") ? parameters.get("campaign_number") : "";
+		Map<String, Object> parameters = req.getQueryResult().getParameters();
+		Integer campaignNumber = parameters.containsKey("campaign_number")
+				? ((List<Integer>) parameters.get("campaign_number")).get(0)
+				: 0;
 		logger.info("Campaign Number : {}", campaignNumber);
-		;
+
 		if (campaignNumber.equals("1")) {
 
 		} else if (campaignNumber.equals("2")) {
@@ -74,7 +76,7 @@ public class IntentProcessingService {
 		} else {
 
 		}
-		int activeCampaignId = activeCampaignDAO.addCampaign(Integer.parseInt(campaignNumber));
+		int activeCampaignId = activeCampaignDAO.addCampaign(campaignNumber);
 		activeCampaignrepository.put(req.getSession(), activeCampaignId);
 		Text text = new Text(new String[] { "Great.. I have created a campaign which targets 15000 members.",
 				"You wanna apply any filters ?" });
