@@ -64,14 +64,14 @@ public class IntentProcessingService {
 		Map<String, Object> parameters = req.getQueryResult().getParameters();
 		Double campaignNumber = parameters.containsKey("campaign_number")
 				? ((List<Double>) parameters.get("campaign_number")).get(0)
-				: 0;
+				: 0.0;
 		logger.info("Campaign Number : {}", campaignNumber);
 
-		if (campaignNumber.equals("1")) {
+		if (campaignNumber.equals(1)) {
 
-		} else if (campaignNumber.equals("2")) {
+		} else if (campaignNumber.equals(2)) {
 
-		} else if (campaignNumber.equals("3")) {
+		} else if (campaignNumber.equals(3)) {
 
 		} else {
 
