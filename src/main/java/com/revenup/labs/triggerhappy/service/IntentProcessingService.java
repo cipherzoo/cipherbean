@@ -61,17 +61,20 @@ public class IntentProcessingService {
 	}
 
 	public Text processSelectedCampaign(Request req) {
-		String selection = "1";
-		if (selection.equals("1")) {
+		Map<String, String> parameters = req.getQueryResult().getParameters();
+		String campaignNumber = parameters.containsKey("campaign_number") ? parameters.get("campaign_number") : "";
+		logger.info("Campaign Number : {}", campaignNumber);
+		;
+		if (campaignNumber.equals("1")) {
 
-		} else if (selection.equals("2")) {
+		} else if (campaignNumber.equals("2")) {
 
-		} else if (selection.equals("3")) {
+		} else if (campaignNumber.equals("3")) {
 
 		} else {
 
 		}
-		int activeCampaignId = activeCampaignDAO.addCampaign(Integer.parseInt(selection));
+		int activeCampaignId = activeCampaignDAO.addCampaign(Integer.parseInt(campaignNumber));
 		activeCampaignrepository.put(req.getSession(), activeCampaignId);
 		Text text = new Text(new String[] { "Great.. I have created a campaign which targets 15000 members.",
 				"You wanna apply any filters ?" });
