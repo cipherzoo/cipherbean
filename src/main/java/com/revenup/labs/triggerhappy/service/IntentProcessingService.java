@@ -62,8 +62,8 @@ public class IntentProcessingService {
 
 	public Text processSelectedCampaign(Request req) {
 		Map<String, Object> parameters = req.getQueryResult().getParameters();
-		Integer campaignNumber = parameters.containsKey("campaign_number")
-				? ((List<Integer>) parameters.get("campaign_number")).get(0)
+		Double campaignNumber = parameters.containsKey("campaign_number")
+				? ((List<Double>) parameters.get("campaign_number")).get(0)
 				: 0;
 		logger.info("Campaign Number : {}", campaignNumber);
 
@@ -76,7 +76,7 @@ public class IntentProcessingService {
 		} else {
 
 		}
-		int activeCampaignId = activeCampaignDAO.addCampaign(campaignNumber);
+		int activeCampaignId = activeCampaignDAO.addCampaign(campaignNumber.intValue());
 		activeCampaignrepository.put(req.getSession(), activeCampaignId);
 		Text text = new Text(new String[] { "Great.. I have created a campaign which targets 15000 members.",
 				"You wanna apply any filters ?" });
