@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.df.webhook.Request;
 import com.google.df.webhook.response.DialogFlowResponse;
 import com.google.df.webhook.response.Message;
+import com.google.df.webhook.response.Text;
 import com.revenup.labs.triggerhappy.service.IntentProcessingService;
 
 @RestController
@@ -43,7 +44,8 @@ public class WebhookController {
 				fulfillmentMessage.put("text", intentProcessingService.getCampaignsByCampaignType(request));
 				break;
 			case "get_campaign_type_from_user-select.number":
-				fulfillmentMessage.put("text", intentProcessingService.processSelectedCampaign(request));
+				// fulfillmentMessage.put("text", intentProcessingService.processSelectedCampaign(request));
+				fulfillmentMessage.put("text",new Text(new String[] {"test"}));
 				break;
 			default:
 				break;
