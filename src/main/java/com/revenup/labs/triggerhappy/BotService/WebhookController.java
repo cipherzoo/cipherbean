@@ -35,6 +35,7 @@ public class WebhookController {
 		DialogFlowResponse dialogFlowResponse = new DialogFlowResponse();
 		try {
 			String intent = request.getQueryResult().getIntent().getDisplayName();
+			logger.info("Intent : ", intent);
 			Map<String, Message> fulfillmentMessage = new HashMap<>();
 			switch (intent) {
 			case "get_insights":
@@ -44,8 +45,9 @@ public class WebhookController {
 				fulfillmentMessage.put("text", intentProcessingService.getCampaignsByCampaignType(request));
 				break;
 			case "get_campaign_type_from_user-select.number":
-				// fulfillmentMessage.put("text", intentProcessingService.processSelectedCampaign(request));
-				fulfillmentMessage.put("text",new Text(new String[] {"test"}));
+				// fulfillmentMessage.put("text",
+				// intentProcessingService.processSelectedCampaign(request));
+				fulfillmentMessage.put("text", new Text(new String[] { "test" }));
 				break;
 			default:
 				break;
