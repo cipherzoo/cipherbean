@@ -28,7 +28,7 @@ public class IntentProcessingService {
 	@Autowired
 	private ActiveCampaignDAO activeCampaignDAO;
 
-	private ActiveCampaignRepository activeCampaignrepository;
+	private ActiveCampaignRepository activeCampaignrepository = ActiveCampaignRepository.getInstance();
 
 	private static Logger logger = LoggerFactory.getLogger("IntentProcessingService");
 
