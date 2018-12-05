@@ -47,6 +47,9 @@ public class WebhookController {
 			case "get_campaign_type_from_user-select.number":
 				fulfillmentMessage.put("text", intentProcessingService.processSelectedCampaign(request));
 				break;
+			case "get_campaign_type_from_user-select.number - yes":
+				fulfillmentMessage.put("text", intentProcessingService.showPsychographicFilters(request));
+				break;
 			default:
 				break;
 			}

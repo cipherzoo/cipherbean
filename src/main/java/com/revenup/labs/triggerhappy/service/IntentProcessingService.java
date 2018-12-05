@@ -15,6 +15,9 @@ import com.google.df.webhook.response.Text;
 import com.revenup.labs.triggerhappy.dao.ActiveCampaignDAO;
 import com.revenup.labs.triggerhappy.dao.ActiveCampaignRepository;
 import com.revenup.labs.triggerhappy.dao.CampaignDAO;
+import com.revenup.labs.triggerhappy.model.CampaignFilter;
+
+// TODO Challenges : Dynamic filter mappings to campaigns and RFM filter values
 
 @Service
 public class IntentProcessingService {
@@ -43,7 +46,7 @@ public class IntentProcessingService {
 		case "product based":
 			logger.info("The Selected campaign type is Product Type");
 			textMessages.add("Here are some cherry picked product based campaigns for you.");
-			textMessages.add("Just enter the corresponding number to go ahead creating 			 the campaign.");
+			textMessages.add("Just enter the corresponding number to go ahead creating the campaign.");
 			textMessages.add("1. Cross-sell Fixed Deposit");
 			textMessages.add("2. Cross-sell Personal Loan");
 			textMessages.add("3. Cross-sell Credit Card");
@@ -83,8 +86,57 @@ public class IntentProcessingService {
 		return text;
 	}
 
-	private void showFilters() {
+	// TODO Filters will be dynamic and not statically attached to all the campaigns
+	// (This has to be changed)
+	public Text getAttitudeFilter(Request req) {
+		Map<String, Object> parameters = req.getQueryResult().getParameters();
+		String filter = parameters.containsKey("attitude_filters") ? (String) parameters.get("attitude_filters") : "";
+		int rowsAffected = updateActiveCampaignFilters(filter);
+		Text text = new Text(new String[] { "Applied Attitude filters.", "You wanna apply any location filters ?" });
+		return text;
+	}
 
+	public Text getLocationFilter(Request req) {
+		Map<String, Object> parameters = req.getQueryResult().getParameters();
+		String filter = parameters.containsKey("location_filters") ? (String) parameters.get("attitude_filters") : "";
+		int rowsAffected = updateActiveCampaignFilters(filter);
+		Text text = new Text(new String[] { "Applied Location filters.", "You wanna apply any Value based filters ?" });
+		return text;
+	}
+
+	public Text getValueFilter(Request req) {
+		Map<String, Object> parameters = req.getQueryResult().getParameters();
+		String filter = parameters.containsKey("value_filters") ? (String) parameters.get("value_filters") : "";
+		int rowsAffected = updateActiveCampaignFilters(filter);
+		int count = getCampaignTargetCount(activeCampaignrepository.get("activeCampaignId"));
+		Text text = new Text(new String[] {
+				"Applied Value filters. And that resulted in " + count + "records. And that completes all" });
+		return text;
+	}
+
+	public int updateActiveCampaignFilters(String filter) {
+		int activeCampaignId = this.activeCampaignrepository.get("activeCampaignId");
+		CampaignFilter campaignFilter = this.campaignDAO.getFilterByFilterName(filter);
+		return this.activeCampaignDAO.applyActiveCampaignFilters(activeCampaignId, campaignFilter.getFilterId());
+	}
+
+	public Text showPsychographicFilters(Request req) {
+		return new Text(new String[] { "Choose any one of the following psychographic filters,", "All", "Risky", "Safe",
+				"Fence-Sitters" });
+	}
+
+	public Text showLocationFilters() {
+		return new Text(new String[] { "Choose any one of the following location filters,", "All", "North", "South",
+				"East", "West" });
+	}
+
+	public Text showValueFilters() {
+		return new Text(new String[] { "Choose any one of the following Value filters,", "All", "Recency", "Frequency",
+				"Monetary" });
+	}
+
+	private int getCampaignTargetCount(int activeCampaignId) {
+		return 1000;
 	}
 
 }
