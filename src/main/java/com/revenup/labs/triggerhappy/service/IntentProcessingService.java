@@ -100,7 +100,7 @@ public class IntentProcessingService {
 	public Text getAttitudeFilter(Request req) {
 		Map<String, Object> parameters = req.getQueryResult().getParameters();
 		String filter = parameters.containsKey("attitude_filters") ? (String) parameters.get("attitude_filters") : "";
-		int rowsAffected = updateActiveCampaignFilters(filter);
+		int rowsAffected = updateActiveCampaignFilters(filter, req.getSession());
 		int targetCount = customerDAO.getCustomerCount() * 7 / 8;
 		Text text = new Text(new String[] { "Applied Attitude filters ending with " + targetCount + " records",
 				"You wanna apply any location filters ?" });
@@ -110,7 +110,7 @@ public class IntentProcessingService {
 	public Text getLocationFilter(Request req) {
 		Map<String, Object> parameters = req.getQueryResult().getParameters();
 		String filter = parameters.containsKey("location_filters") ? (String) parameters.get("attitude_filters") : "";
-		int rowsAffected = updateActiveCampaignFilters(filter);
+		int rowsAffected = updateActiveCampaignFilters(filter, req.getSession());
 		Text text = new Text(new String[] { "Applied Location filters.", "You wanna apply any Value based filters ?" });
 		return text;
 	}
@@ -118,15 +118,15 @@ public class IntentProcessingService {
 	public Text getValueFilter(Request req) {
 		Map<String, Object> parameters = req.getQueryResult().getParameters();
 		String filter = parameters.containsKey("value_filters") ? (String) parameters.get("value_filters") : "";
-		int rowsAffected = updateActiveCampaignFilters(filter);
+		int rowsAffected = updateActiveCampaignFilters(filter, req.getSession());
 		int count = getCampaignTargetCount(activeCampaignrepository.get(req.getSession()));
 		Text text = new Text(new String[] {
 				"Applied Value filters. And that resulted in " + count + "records. And that completes all" });
 		return text;
 	}
 
-	public int updateActiveCampaignFilters(String filter) {
-		int activeCampaignId = this.activeCampaignrepository.get("activeCampaignId");
+	public int updateActiveCampaignFilters(String filter, String sessionId) {
+		int activeCampaignId = this.activeCampaignrepository.get(sessionId);
 		CampaignFilter campaignFilter = this.campaignDAO.getFilterByFilterName(filter);
 		return this.activeCampaignDAO.applyActiveCampaignFilters(activeCampaignId, campaignFilter.getFilterId());
 	}
