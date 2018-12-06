@@ -15,6 +15,7 @@ import com.google.df.webhook.response.Text;
 import com.revenup.labs.triggerhappy.dao.ActiveCampaignDAO;
 import com.revenup.labs.triggerhappy.dao.ActiveCampaignRepository;
 import com.revenup.labs.triggerhappy.dao.CampaignDAO;
+import com.revenup.labs.triggerhappy.dao.CustomerDAO;
 import com.revenup.labs.triggerhappy.model.CampaignFilter;
 
 // TODO Challenges : Dynamic filter mappings to campaigns and RFM filter values
@@ -27,6 +28,12 @@ public class IntentProcessingService {
 
 	@Autowired
 	private ActiveCampaignDAO activeCampaignDAO;
+
+	@Autowired
+	private CustomerDAO customerDAO;
+
+	@Autowired
+	private ActiveCampaignProcessor activeCampaignProcessor;
 
 	private ActiveCampaignRepository activeCampaignrepository = ActiveCampaignRepository.getInstance();
 
@@ -80,9 +87,11 @@ public class IntentProcessingService {
 
 		}
 		int activeCampaignId = activeCampaignDAO.addCampaign(campaignNumber.intValue());
+		int targetCount = customerDAO.getCustomerCount();
 		activeCampaignrepository.put(req.getSession(), activeCampaignId);
-		Text text = new Text(new String[] { "Great.. I have created a campaign which targets 15000 members.",
-				"You wanna apply any filters ?" });
+		Text text = new Text(
+				new String[] { "Great.. I have created a campaign which targets " + targetCount + " members.",
+						"You wanna apply any filters ?" });
 		return text;
 	}
 
@@ -92,7 +101,9 @@ public class IntentProcessingService {
 		Map<String, Object> parameters = req.getQueryResult().getParameters();
 		String filter = parameters.containsKey("attitude_filters") ? (String) parameters.get("attitude_filters") : "";
 		int rowsAffected = updateActiveCampaignFilters(filter);
-		Text text = new Text(new String[] { "Applied Attitude filters.", "You wanna apply any location filters ?" });
+		int targetCount = customerDAO.getCustomerCount() * 7 / 8;
+		Text text = new Text(new String[] { "Applied Attitude filters ending with " + targetCount + " records",
+				"You wanna apply any location filters ?" });
 		return text;
 	}
 
@@ -108,7 +119,7 @@ public class IntentProcessingService {
 		Map<String, Object> parameters = req.getQueryResult().getParameters();
 		String filter = parameters.containsKey("value_filters") ? (String) parameters.get("value_filters") : "";
 		int rowsAffected = updateActiveCampaignFilters(filter);
-		int count = getCampaignTargetCount(activeCampaignrepository.get("activeCampaignId"));
+		int count = getCampaignTargetCount(activeCampaignrepository.get(req.getSession()));
 		Text text = new Text(new String[] {
 				"Applied Value filters. And that resulted in " + count + "records. And that completes all" });
 		return text;
@@ -120,9 +131,9 @@ public class IntentProcessingService {
 		return this.activeCampaignDAO.applyActiveCampaignFilters(activeCampaignId, campaignFilter.getFilterId());
 	}
 
-	public Text showPsychographicFilters(Request req) {
-		return new Text(new String[] { "Choose any one of the following psychographic filters,", "All", "Risky", "Safe",
-				"Fence-Sitters" });
+	public Text showPsychographicFilters() {
+		return new Text(new String[] { "Choose any one of the following psychographic filters,", "1.Risky", "2.Safe",
+				"3.Fence-Sitters", "4.All" });
 	}
 
 	public Text showLocationFilters() {
@@ -133,6 +144,12 @@ public class IntentProcessingService {
 	public Text showValueFilters() {
 		return new Text(new String[] { "Choose any one of the following Value filters,", "All", "Recency", "Frequency",
 				"Monetary" });
+	}
+
+	public Text completeCampaignCreation(Request req) {
+		int activeCampaignId = activeCampaignrepository.get(req.getSession());
+		int targetCount = activeCampaignProcessor.getTargetCount(activeCampaignId);
+		return new Text(new String[] { "Bingo.. The campaign is all set now targeting " + targetCount + "records" });
 	}
 
 	private int getCampaignTargetCount(int activeCampaignId) {

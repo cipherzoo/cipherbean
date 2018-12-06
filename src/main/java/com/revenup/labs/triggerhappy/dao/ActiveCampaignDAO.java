@@ -5,12 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
+
+import com.revenup.labs.triggerhappy.model.ActiveCampaignFilter;
 
 @Component
 public class ActiveCampaignDAO {
@@ -20,6 +23,7 @@ public class ActiveCampaignDAO {
 
 	private final String INSERT_CAMPAIGN_SQL = "INSERT INTO active_campaign(campaign_id,active_campaign_name) VALUES (?,?)";
 	private final String INSERT_ACTIVE_CAMPAIGN_FILTERS = "INSERT INTO active_campaign_filters(active_campaign_id,filter_id) VALUES(?,?)";
+	private final String SELECT_ACTIVE_FILTERS = "SELECT * FROM active_campaign_filters WHERE active_campaign_id=?";
 
 	/**
 	 * Adds new active campaign based on the user selected campaign template and
@@ -46,6 +50,17 @@ public class ActiveCampaignDAO {
 		int rowsAffected = this.jdbcTemplate.update(INSERT_ACTIVE_CAMPAIGN_FILTERS,
 				new Object[] { activeCampaignId, filterId });
 		return rowsAffected;
+	}
+
+	public List<ActiveCampaignFilter> getActiveCampaignFilters(int activeCampaignId) {
+		List<ActiveCampaignFilter> filters = this.jdbcTemplate.query(SELECT_ACTIVE_FILTERS, (rs, rowNo) -> {
+			ActiveCampaignFilter filter = new ActiveCampaignFilter();
+			filter.setActiveCampaignId(rs.getInt("active_campaign_id"));
+			filter.setFilterId(rs.getInt("filter_id"));
+			filter.setFilter(rs.getString("filter"));
+			return filter;
+		}, new Object[] { activeCampaignId });
+		return filters;
 	}
 
 }

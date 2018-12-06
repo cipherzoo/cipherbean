@@ -41,14 +41,39 @@ public class WebhookController {
 			case "get_insights":
 				logger.info("get_insights {}", request);
 				break;
-			case "get_campaign_type_from_user":
+			case "get_campaign_type":
 				fulfillmentMessage.put("text", intentProcessingService.getCampaignsByCampaignType(request));
 				break;
-			case "get_campaign_type_from_user-select.number":
+			case "selected_campaign_type":
 				fulfillmentMessage.put("text", intentProcessingService.processSelectedCampaign(request));
 				break;
-			case "get_campaign_type_from_user-select.number - yes":
-				fulfillmentMessage.put("text", intentProcessingService.showPsychographicFilters(request));
+			case "campaign-get_filters":
+				fulfillmentMessage.put("text", intentProcessingService.showPsychographicFilters());
+				break;
+			case "campaign-no_filters":
+				fulfillmentMessage.put("text", intentProcessingService.completeCampaignCreation(request));
+			case "campaign-filters-attitude":
+				fulfillmentMessage.put("text", intentProcessingService.getAttitudeFilter(request));
+			case "campaign-attitude-get_location_filters":
+				fulfillmentMessage.put("text", intentProcessingService.showLocationFilters());
+				break;
+			case "campaign-attitude_complete":
+				fulfillmentMessage.put("text", intentProcessingService.completeCampaignCreation(request));
+				break;
+			case "campaign-filters-attitude-location":
+				fulfillmentMessage.put("text", intentProcessingService.getLocationFilter(request));
+				break;
+			case "campaign-filters-attitude-location-complete":
+				fulfillmentMessage.put("text", intentProcessingService.completeCampaignCreation(request));
+				break;
+			case "campaign-filters-attitude-location-get_value_filters":
+				fulfillmentMessage.put("text", intentProcessingService.showValueFilters());
+				break;
+			case "campaign-filters-attitude-location-value":
+				fulfillmentMessage.put("text", intentProcessingService.getValueFilter(request));
+				break;
+			case "get_campaign_type_from_user-select.number - attitude - location - value - complete":
+				fulfillmentMessage.put("text", intentProcessingService.completeCampaignCreation(request));
 				break;
 			default:
 				break;
