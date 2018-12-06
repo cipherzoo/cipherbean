@@ -15,8 +15,8 @@ public class CampaignDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private final String SELECT_CAMPAIGN_FILERS = "SELECT * FROM CAMPAIGN_FILTERS where filter_type_id=?";
-	private final String SELECT_CAMPAIGN_FILTER_BY_FILTER_NAME = "SELECT * FROM CAMPAIGN_FILTERS WHERE filter=?";
+	private final String SELECT_CAMPAIGN_FILERS = "SELECT * FROM campaign_filters where filter_type_id=?";
+	private final String SELECT_CAMPAIGN_FILTER_BY_FILTER_NAME = "SELECT * FROM campaign_filters WHERE filter=?";
 
 	public List<CampaignFilter> getCampaignFilters() {
 		List<CampaignFilter> filters = this.jdbcTemplate.query(SELECT_CAMPAIGN_FILERS, new CampaignFilterMapper(),
