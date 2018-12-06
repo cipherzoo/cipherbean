@@ -129,7 +129,7 @@ public class IntentProcessingService {
 		int activeCampaignId = this.activeCampaignrepository.get(sessionId);
 		CampaignFilter campaignFilter = this.campaignDAO.getFilterByFilterName(filter);
 		return this.activeCampaignDAO.applyActiveCampaignFilters(activeCampaignId, campaignFilter.getFilterId());
-	}
+	} 
 
 	public Text showPsychographicFilters() {
 		return new Text(new String[] { "Choose any one of the following psychographic filters,", "1.Risky", "2.Safe",
