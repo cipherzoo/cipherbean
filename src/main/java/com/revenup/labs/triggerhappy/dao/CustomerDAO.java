@@ -2,7 +2,9 @@ package com.revenup.labs.triggerhappy.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomerDAO {
 
 	private final String SELECT_CUSTOMER_COUNT = "SELECT count(customer_id) from customer";
