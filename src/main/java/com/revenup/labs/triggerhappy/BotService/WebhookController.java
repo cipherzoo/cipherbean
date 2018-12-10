@@ -40,7 +40,7 @@ public class WebhookController {
 			switch (intent) {
 			case "get_insights":
 				fulfillmentMessage.put("text", intentProcessingService.getInsights(request));
-				logger.info("get_insights {}", request);
+				logger.info("get_insights {}", request.getQueryResult().getIntent().getName());
 				break;
 			case "get_campaign_type":
 				fulfillmentMessage.put("text", intentProcessingService.getCampaignsByCampaignType(request));
