@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -25,6 +27,8 @@ public class ActiveCampaignDAO {
 	private final String INSERT_ACTIVE_CAMPAIGN_FILTERS = "INSERT INTO active_campaign_filters(active_campaign_id,filter_id) VALUES(?,?)";
 	private final String SELECT_ACTIVE_FILTERS = "SELECT * FROM active_campaign_filters WHERE active_campaign_id=?";
 
+	private final Logger logger = LoggerFactory.getLogger("");
+
 	/**
 	 * Adds new active campaign based on the user selected campaign template and
 	 * returns generated campaign Id
@@ -42,6 +46,7 @@ public class ActiveCampaignDAO {
 				return stmt;
 			}
 		}, keyHolder);
+		logger.debug("Rows Inserted : {}", rowsAffected);
 		int activeCampaignId = keyHolder.getKey().intValue();
 		return activeCampaignId;
 	}
@@ -62,5 +67,4 @@ public class ActiveCampaignDAO {
 		}, new Object[] { activeCampaignId });
 		return filters;
 	}
-
 }

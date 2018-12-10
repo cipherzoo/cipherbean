@@ -129,7 +129,7 @@ public class IntentProcessingService {
 		int activeCampaignId = this.activeCampaignrepository.get(sessionId);
 		CampaignFilter campaignFilter = this.campaignDAO.getFilterByFilterName(filter);
 		return this.activeCampaignDAO.applyActiveCampaignFilters(activeCampaignId, campaignFilter.getFilterId());
-	} 
+	}
 
 	public Text showPsychographicFilters() {
 		return new Text(new String[] { "Choose any one of the following psychographic filters,", "1.Risky", "2.Safe",
@@ -137,8 +137,8 @@ public class IntentProcessingService {
 	}
 
 	public Text showLocationFilters() {
-		return new Text(new String[] { "Choose any one of the following location filters,", "All", "North", "South",
-				"East", "West" });
+		return new Text(new String[] { "Choose any one of the following location filters,", "1.North", "2.South",
+				"3.East", "4.West", "5.ALL" });
 	}
 
 	public Text showValueFilters() {
