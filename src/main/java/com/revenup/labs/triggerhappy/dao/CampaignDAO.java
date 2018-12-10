@@ -35,7 +35,8 @@ public class CampaignDAO {
 	}
 
 	public int getCampaignTypeId(String campaignType) {
-		int campaignTypeId = this.jdbcTemplate.queryForObject(SELECT_CAMPAIGN_TYPE, new Object[] {}, Integer.class);
+		int campaignTypeId = this.jdbcTemplate.queryForObject(SELECT_CAMPAIGN_TYPE, new Object[] { campaignType },
+				Integer.class);
 		return campaignTypeId;
 	}
 }
