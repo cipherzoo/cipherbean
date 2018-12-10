@@ -2,6 +2,8 @@ package com.revenup.labs.triggerhappy.dao;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,8 @@ public class CampaignDAO {
 	private final String SELECT_CAMPAIGN_FILTER_BY_FILTER_NAME = "SELECT * FROM campaign_filters WHERE filter=?";
 	private final String SELECT_CAMPAIGN_TYPE = "Select campaign_type_id from campaign_type where campaign_type_name=?";
 
+	private final Logger logger = LoggerFactory.getLogger("");
+
 	public List<CampaignFilter> getCampaignFilters() {
 		List<CampaignFilter> filters = this.jdbcTemplate.query(SELECT_CAMPAIGN_FILERS, new CampaignFilterMapper(),
 				new Object[] {});
@@ -35,6 +39,7 @@ public class CampaignDAO {
 	}
 
 	public int getCampaignTypeId(String campaignType) {
+		logger.info("CampaignDAO campaignType : ", campaignType);
 		int campaignTypeId = this.jdbcTemplate.queryForObject(SELECT_CAMPAIGN_TYPE, new Object[] { campaignType },
 				Integer.class);
 		return campaignTypeId;
