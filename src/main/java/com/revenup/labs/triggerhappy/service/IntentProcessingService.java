@@ -1,6 +1,7 @@
 package com.revenup.labs.triggerhappy.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,8 @@ public class IntentProcessingService {
 	private ActiveCampaignProcessor activeCampaignProcessor;
 
 	private ActiveCampaignRepository activeCampaignrepository = ActiveCampaignRepository.getInstance();
+
+	private Map<String, String> activeCampaign = new HashMap<>();
 
 	private static Logger logger = LoggerFactory.getLogger("IntentProcessingService");
 
@@ -73,6 +76,8 @@ public class IntentProcessingService {
 		default:
 			break;
 		}
+		activeCampaign.put("campaignType", campaignType);
+		activeCampaignrepository.put(req.getSession(), activeCampaign);
 		Text text = new Text(textMessages.toArray(new String[textMessages.size()]));
 		return text;
 	}
@@ -82,7 +87,7 @@ public class IntentProcessingService {
 		Double campaignNumber = parameters.containsKey("campaign_number")
 				? ((List<Double>) parameters.get("campaign_number")).get(0)
 				: 0.0;
-		String campaignType = parameters.containsKey("campaign_types") ? (String) parameters.get("campaign_types") : "";
+		String campaignType = activeCampaignrepository.get(req.getSession()).get("campaignType");
 		logger.info("Campaign Number : {} and Campaign Type : {}", campaignNumber, campaignType);
 		// Get count of campaigns with campaign types that comes before the current
 		// campaign type.
@@ -91,7 +96,8 @@ public class IntentProcessingService {
 
 		int activeCampaignId = activeCampaignDAO.addCampaign((3 * (camapignTypeId - 1)) + campaignNumber.intValue());
 		int targetCount = customerDAO.getCustomerCount();
-		activeCampaignrepository.put(req.getSession(), activeCampaignId);
+		activeCampaign.put("activeCampaignId", activeCampaignId + "");
+		activeCampaignrepository.put(req.getSession(), activeCampaign);
 		Text text = new Text(
 				new String[] { "Great.. I have created a campaign which targets " + targetCount + " members.",
 						"You wanna apply any filters ?" });
@@ -122,14 +128,15 @@ public class IntentProcessingService {
 		Map<String, Object> parameters = req.getQueryResult().getParameters();
 		String filter = parameters.containsKey("value_filters") ? (String) parameters.get("value_filters") : "";
 		int rowsAffected = updateActiveCampaignFilters(filter, req.getSession());
-		int count = getCampaignTargetCount(activeCampaignrepository.get(req.getSession()));
+		int count = getCampaignTargetCount(
+				(Integer.parseInt(activeCampaignrepository.get(req.getSession()).get("activeCampaignId"))));
 		Text text = new Text(new String[] {
 				"Applied Value filters. And that resulted in " + count + "records. And that completes all" });
 		return text;
 	}
 
 	public int updateActiveCampaignFilters(String filter, String sessionId) {
-		int activeCampaignId = this.activeCampaignrepository.get(sessionId);
+		int activeCampaignId = Integer.parseInt(this.activeCampaignrepository.get(sessionId).get("activeCampaignId"));
 		CampaignFilter campaignFilter = this.campaignDAO.getFilterByFilterName(filter);
 		return this.activeCampaignDAO.applyActiveCampaignFilters(activeCampaignId, campaignFilter.getFilterId());
 	}
@@ -150,7 +157,8 @@ public class IntentProcessingService {
 	}
 
 	public Text completeCampaignCreation(Request req) {
-		int activeCampaignId = activeCampaignrepository.get(req.getSession());
+		int activeCampaignId = Integer
+				.parseInt(this.activeCampaignrepository.get(req.getSession()).get("activeCampaignId"));
 		int targetCount = activeCampaignProcessor.getTargetCount(activeCampaignId);
 		return new Text(new String[] { "Bingo.. The campaign is all set now targeting " + targetCount + "records" });
 	}

@@ -40,8 +40,8 @@ public class CampaignDAO {
 
 	public int getCampaignTypeId(String campaignType) {
 		logger.info("CampaignDAO campaignType : ", campaignType);
-		int campaignTypeId = this.jdbcTemplate.queryForObject(SELECT_CAMPAIGN_TYPE, new Object[] { campaignType },
-				Integer.class);
+		int campaignTypeId = this.jdbcTemplate.queryForObject(SELECT_CAMPAIGN_TYPE,
+				new Object[] { campaignType.toLowerCase() }, Integer.class);
 		return campaignTypeId;
 	}
 }
