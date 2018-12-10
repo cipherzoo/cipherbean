@@ -142,8 +142,8 @@ public class IntentProcessingService {
 	}
 
 	public Text showValueFilters() {
-		return new Text(new String[] { "Choose any one of the following Value filters,", "All", "Recency", "Frequency",
-				"Monetary" });
+		return new Text(new String[] { "Choose any one of the following Value filters,", "1.Recency", "2.Frequency",
+				"3.Monetary", "4.All" });
 	}
 
 	public Text completeCampaignCreation(Request req) {
