@@ -89,7 +89,7 @@ public class IntentProcessingService {
 
 		int camapignTypeId = campaignDAO.getCampaignTypeId(campaignType);
 
-		int activeCampaignId = activeCampaignDAO.addCampaign((3 * camapignTypeId) + campaignNumber.intValue());
+		int activeCampaignId = activeCampaignDAO.addCampaign((3 * (camapignTypeId - 1)) + campaignNumber.intValue());
 		int targetCount = customerDAO.getCustomerCount();
 		activeCampaignrepository.put(req.getSession(), activeCampaignId);
 		Text text = new Text(
