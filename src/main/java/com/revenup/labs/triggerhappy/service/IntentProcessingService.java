@@ -109,7 +109,7 @@ public class IntentProcessingService {
 
 	public Text getLocationFilter(Request req) {
 		Map<String, Object> parameters = req.getQueryResult().getParameters();
-		String filter = parameters.containsKey("location_filters") ? (String) parameters.get("attitude_filters") : "";
+		String filter = parameters.containsKey("location_filters") ? (String) parameters.get("location_filters") : "";
 		int rowsAffected = updateActiveCampaignFilters(filter, req.getSession());
 		Text text = new Text(new String[] { "Applied Location filters.", "You wanna apply any Value based filters ?" });
 		return text;
