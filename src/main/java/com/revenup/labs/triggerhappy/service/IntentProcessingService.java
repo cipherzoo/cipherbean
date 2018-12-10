@@ -39,8 +39,12 @@ public class IntentProcessingService {
 
 	private static Logger logger = LoggerFactory.getLogger("IntentProcessingService");
 
-	public Message getInsights() {
-		return null;
+	public Message getInsights(Request req) {
+		Text text = new Text(new String[] { "Few Insights for you,",
+				"Your main competitor is making progress by boosting their cross sell.",
+				"This year the average sales has been increased over all the platform",
+				"Do you wanna create any counter campaign from your base ?" });
+		return text;
 	}
 
 	public Message getCampaignsByCampaignType(Request req) {

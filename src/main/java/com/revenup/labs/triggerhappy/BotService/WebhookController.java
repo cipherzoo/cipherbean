@@ -39,6 +39,7 @@ public class WebhookController {
 			Map<String, Message> fulfillmentMessage = new HashMap<>();
 			switch (intent) {
 			case "get_insights":
+				fulfillmentMessage.put("text", intentProcessingService.getInsights(request));
 				logger.info("get_insights {}", request);
 				break;
 			case "get_campaign_type":
