@@ -17,6 +17,7 @@ public class CampaignDAO {
 
 	private final String SELECT_CAMPAIGN_FILERS = "SELECT * FROM campaign_filters where filter_type_id=?";
 	private final String SELECT_CAMPAIGN_FILTER_BY_FILTER_NAME = "SELECT * FROM campaign_filters WHERE filter=?";
+	private final String SELECT_CAMPAIGN_TYPE = "Select campaign_type_id from campaign_type where campaign_type_name=?";
 
 	public List<CampaignFilter> getCampaignFilters() {
 		List<CampaignFilter> filters = this.jdbcTemplate.query(SELECT_CAMPAIGN_FILERS, new CampaignFilterMapper(),
@@ -31,5 +32,10 @@ public class CampaignDAO {
 			return campaignFilers.get(0);
 		}
 		return null;
+	}
+
+	public int getCampaignTypeId(String campaignType) {
+		int campaignTypeId = this.jdbcTemplate.queryForObject(SELECT_CAMPAIGN_TYPE, new Object[] {}, Integer.class);
+		return campaignTypeId;
 	}
 }

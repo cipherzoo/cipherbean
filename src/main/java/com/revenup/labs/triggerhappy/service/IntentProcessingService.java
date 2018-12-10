@@ -64,6 +64,9 @@ public class IntentProcessingService {
 			logger.info("Added Text responses");
 			break;
 		case "goal based":
+			textMessages.add("1. CC Activation Behavioural Segment");
+			textMessages.add("2. Advocacy Behavioural Segment");
+			textMessages.add("3. FD Retention Behavioural Segment");
 			break;
 		case "treatment based":
 			break;
@@ -79,18 +82,14 @@ public class IntentProcessingService {
 		Double campaignNumber = parameters.containsKey("campaign_number")
 				? ((List<Double>) parameters.get("campaign_number")).get(0)
 				: 0.0;
-		logger.info("Campaign Number : {}", campaignNumber);
+		String campaignType = parameters.containsKey("campaign_types") ? (String) parameters.get("campaign_types") : "";
+		logger.info("Campaign Number : {} and Campaign Type : {}", campaignNumber, campaignType);
+		// Get count of campaigns with campaign types that comes before the current
+		// campaign type.
 
-		if (campaignNumber.equals(1)) {
+		int camapignTypeId = campaignDAO.getCampaignTypeId(campaignType);
 
-		} else if (campaignNumber.equals(2)) {
-
-		} else if (campaignNumber.equals(3)) {
-
-		} else {
-
-		}
-		int activeCampaignId = activeCampaignDAO.addCampaign(campaignNumber.intValue());
+		int activeCampaignId = activeCampaignDAO.addCampaign((3 * camapignTypeId) + campaignNumber.intValue());
 		int targetCount = customerDAO.getCustomerCount();
 		activeCampaignrepository.put(req.getSession(), activeCampaignId);
 		Text text = new Text(
