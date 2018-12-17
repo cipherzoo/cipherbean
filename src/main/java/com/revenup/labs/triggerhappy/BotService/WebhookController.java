@@ -45,7 +45,7 @@ public class WebhookController {
 			case "get_campaign_type":
 				fulfillmentMessage.put("text", intentProcessingService.getCampaignsByCampaignType(request));
 				break;
-			case "selected_campaign_type":
+			case "select_campaign":
 				fulfillmentMessage.put("text", intentProcessingService.processSelectedCampaign(request));
 				break;
 			case "campaign-get_filters":
