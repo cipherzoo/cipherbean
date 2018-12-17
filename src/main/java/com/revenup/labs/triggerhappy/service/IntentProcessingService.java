@@ -93,7 +93,6 @@ public class IntentProcessingService {
 		// campaign type.
 
 		int camapignTypeId = campaignDAO.getCampaignTypeId(campaignType);
-
 		int activeCampaignId = activeCampaignDAO.addCampaign((3 * (camapignTypeId - 1)) + campaignNumber.intValue());
 		int targetCount = customerDAO.getCustomerCount();
 		activeCampaign.put("activeCampaignId", activeCampaignId + "");
@@ -118,7 +117,7 @@ public class IntentProcessingService {
 
 	public Text getLocationFilter(Request req) {
 		Map<String, Object> parameters = req.getQueryResult().getParameters();
-		String filter = parameters.containsKey("location_filter") ? (String) parameters.get("location_filter") : "";
+		String filter = parameters.containsKey("location_filters") ? (String) parameters.get("location_filters") : "";
 		int rowsAffected = updateActiveCampaignFilters(filter, req.getSession());
 		Text text = new Text(new String[] { "Applied Location filters.", "You wanna apply any Value based filters ?" });
 		return text;
