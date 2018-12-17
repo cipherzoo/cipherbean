@@ -61,16 +61,16 @@ public class WebhookController {
 			case "campaign-attitude_complete":
 				fulfillmentMessage.put("text", intentProcessingService.completeCampaignCreation(request));
 				break;
-			case "campaign-filters-attitude-location":
+			case "campaign-attitude-location":
 				fulfillmentMessage.put("text", intentProcessingService.getLocationFilter(request));
 				break;
-			case "campaign-filters-attitude-location-complete":
+			case "campaign-attitude-location-complete":
 				fulfillmentMessage.put("text", intentProcessingService.completeCampaignCreation(request));
 				break;
-			case "campaign-filters-attitude-location-get_value_filters":
+			case "campaign-attitude-location-get_value_filters":
 				fulfillmentMessage.put("text", intentProcessingService.showValueFilters());
 				break;
-			case "campaign-filters-attitude-location-value":
+			case "campaign-attitude-location-value":
 				fulfillmentMessage.put("text", intentProcessingService.getValueFilter(request));
 				break;
 			case "get_campaign_type_from_user-select.number - attitude - location - value - complete":
