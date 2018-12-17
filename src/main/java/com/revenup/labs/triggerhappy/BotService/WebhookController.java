@@ -53,8 +53,10 @@ public class WebhookController {
 				break;
 			case "campaign-no_filters":
 				fulfillmentMessage.put("text", intentProcessingService.completeCampaignCreation(request));
+				break;
 			case "campaign-filters-attitude":
 				fulfillmentMessage.put("text", intentProcessingService.getAttitudeFilter(request));
+				break;
 			case "campaign-attitude-get_location_filters":
 				fulfillmentMessage.put("text", intentProcessingService.showLocationFilters());
 				break;
